@@ -1,301 +1,320 @@
+/* Loaded only while KLAS Helper dark mode is enabled. */
 :root {
-  --custom-white: #dddddd;
-  --custom-dark-background: #373737;
-  --custom-dark-secondary: #616161;
-  --custom-dark-thirdly: #737373;
-  --custom-text-white: #dddddd;
-  --custom-text-white-secondary: #d0d0d0;
-  --custom-text-black: #373737;
-  --custom-gw-primary: #3a051f;
+  color-scheme: dark;
+  --kh-bg: #2b2b2b;
+  --kh-surface: #333333;
+  --kh-raised: #3b3b3b;
+  --kh-hover: #434343;
+  --kh-text: #dedede;
+  --kh-secondary: #c2c2c2;
+  --kh-muted: #b0b0b0;
+  --kh-divider: #4b4b4b;
+  --kh-control-border: #909090;
+  --kh-link: #96b4df;
+  --kh-success: #aac3a4;
+  --kh-warning: #d9bf94;
+  --kh-danger: #e6a09c;
+  --kh-brand: #54223b;
+  --kh-accent: #cfa3c9;
 }
 
-/* 기본 백그라운드 */
-.py-5, .py-4 {
-  background-color: var(--custom-dark-background) !important;
+html, body {
+  background-color: var(--kh-bg) !important;
+  color: var(--kh-text);
+  min-height: 100%;
+}
+body { min-height: 100vh; min-height: 100dvh; }
+/* Only the standard KLAS shell gets a sticky footer, not popup/editor bodies. */
+body:has(> header):has(> :is(main, section)):has(> footer) {
+  display: flex;
+  flex-direction: column;
+  > header, > footer { flex-shrink: 0; }
+  > main, > section { flex: 1 0 auto; background-color: var(--kh-bg) !important; }
+}
+body > main > .bg-light, body > section > .bg-light { background-color: var(--kh-bg) !important; }
+
+.bg-top { background-color: #301021 !important; }
+.bg-menu, .side_menu, .jquery-accordion-menu ul li a {
+  background-color: var(--kh-surface) !important;
+}
+.subjectnameba, .calendarbox .caltitle, .bg-menu h4, .bg-menu h4 a {
+  background-color: var(--kh-brand) !important;
+  color: var(--kh-text) !important;
+}
+.navtxt, .navtxt a, .depth02ul li a, .depth03ul li a,
+.subjectnameba, .subjectnameba a, .subjectnameba .subtitle {
+  color: var(--kh-text) !important;
 }
 
-/* 상단 바 */
-.bg-top {
-  /* background-color: #1A0209 !important; */
+/* Paint surfaces, never spacing/grid utilities such as .mb-4 or .col-md-6. */
+.card, .subrighttb, .calendarbox, .con_search,
+.selectsemester, .board_notice, .board_view,
+.board_write_form, .board_viewfile, .next_prev_box {
+  background-color: var(--kh-surface) !important;
+  color: var(--kh-text);
+  border-color: var(--kh-divider) !important;
+}
+#appModule, #appSelectSubj { color: var(--kh-text); }
+.title-text, .bodtitle, .c-title, .contenttitle, .contsubtitle, .contsmalltitle,
+.scheduletitle, .subjectlist .left, .subjectpresent a,
+.board_notice dl dt a, .board_write_form dt, .con_tab a {
+  color: var(--kh-text) !important;
+}
+.subjectlist .left span, .subjecttypenotice li span.day,
+.board_notice .date, .next_prev_box dd, #appSelectSubj .aC,
+.contsmallsubtxt, .title-text span, .scheduletitle span, .calendarbox .calendarday .day p {
+  color: var(--kh-secondary) !important;
+}
+a { color: var(--kh-link); }
+a:hover { color: var(--kh-text); }
+.board_viewfile a, .next_prev_box a { color: var(--kh-link) !important; }
+.board_viewfile > span { color: var(--kh-secondary) !important; }
+.board_viewfile > span.format { color: var(--kh-link) !important; }
+.bodtitle, .subjectlist li, .subjectpresent li, .calnotice,
+.board_write_form dt, .board_write_form dd, .next_prev_box dl {
+  border-color: var(--kh-divider) !important;
+}
+.board_write_form dt { background-color: var(--kh-raised) !important; }
+.board_write_form dd { background-color: var(--kh-surface) !important; }
+
+/* Detail-page headings have their own light backgrounds in KLAS. Keep
+   the subtitle's background icon and leave authored post contents alone. */
+#appModule .contsubtitle.icon, .board_view .board_view_header {
+  background-color: var(--kh-raised) !important;
+  color: var(--kh-text) !important;
+  border-color: var(--kh-divider) !important;
+}
+.board_view .board_view_header h2 { color: var(--kh-text) !important; }
+.board_view .board_view_header .board_viewInfo,
+.board_view .board_view_header .board_viewInfo span {
+  color: var(--kh-secondary) !important;
 }
 
-.bg-menu {
-  background-color: var(--custom-dark-secondary) !important;
+/* Pagination arrows are CSS borders, not bitmap images. */
+ul.paging li a {
+  background-color: var(--kh-raised) !important;
+  color: var(--kh-text) !important;
+  border-color: var(--kh-control-border) !important;
+  &::before, &::after { border-color: currentColor !important; }
+}
+ul.paging li:not(.disabled) a:hover,
+ul.paging li:not(.disabled) a:focus-visible {
+  background-color: var(--kh-hover) !important;
+  color: var(--kh-link) !important;
+}
+ul.paging li.active a {
+  background-color: var(--kh-brand) !important;
+  color: var(--kh-text) !important;
+  font-weight: 600;
+  box-shadow: inset 0 -2px var(--kh-link);
+}
+ul.paging li.disabled a {
+  background-color: var(--kh-surface) !important;
+  color: var(--kh-muted) !important;
+  border-color: var(--kh-divider) !important;
+  cursor: default;
 }
 
-/* 상단 바 메뉴들 */
-.depth02ul li a {
-  color: var(--custom-text-white) !important;
-}
-.depth03ul li a {
-  color: var(--custom-text-white-secondary) !important;
-}
-.title-text {
-  color: var(--custom-text-white);
-}
-
-/* 스케줄 테이블 */
-table.scheduletb td p {
-  color: var(--custom-dark-secondary)!important;
-}
-table.scheduletb th, table.scheduletb td.time {
-  color: var(--custom-text-white) !important;
-}
-
-/* 수강과목 */
-.subjectlist .left span {
-  color: var(--custom-text-white-secondary) !important;
-}
-
-.subjecttypenotice li span.day {
-  color: var(--custom-text-white-secondary) !important;
-}
-
-/* 캔버스 (chart.js) */
-canvas {
-  background-color: var(--custom-white) !important;
-}
-
-/* 일반 테이블 */
-.tablegw {
-  background-color: var(--custom-dark-secondary) !important;
-}
-
-.popover-content {
-  background-color: var(--custom-dark-thirdly) !important;
-  border: 1px solid var(--custom-dark-secondary) !important;
-}
-.tablegw td, .tablegw th {
-  background: var(--custom-dark-secondary) !important;
-  color: var(--custom-text-white) !important;
-}
-
-.c-title {
-  color: var(--custom-text-white) !important;
-}
-
-.board_write_form dl * {
-  color: var(--custom-text-white) !important;
-}
-
-.board_notice * {
-  color: var(--custom-text-white-secondary) !important;
-}
-
-.board_viewfile * {
-  color: var(--custom-text-black) !important;
-}
-
-.next_prev_box dt {
-  color: var(--custom-text-white) !important;
-}
-
-.next_prev_box dd {
-  color: var(--custom-text-white-secondary) !important;
-}
-
-/* 외부 글쓰기 iframe */
-.se2_input_area {
-  background-color: var(--custom-white) !important;
-}
-
-
-.c-day-content {
-  color: var(--custom-text-white) !important;
-}
-
-#no-deadline span {
-  color: var(--custom-text-white-secondary) !important;
-}
-#yes-deadline * {
-  color: var(--custom-text-white-secondary);
-}
-#appSelectSubj .aC {
-  color: var(--custom-text-white-secondary) !important;
-}
-
-
-
-/* 하위 컴포넌트 */
-.card {
-  background-color: var(--custom-dark-thirdly) !important;
-}
-.oval {
-  background-color: var(--custom-dark-thirdly) !important;
-  color: var(--custom-text-white) !important;
-}
-
-.mb-4 {
-  background-color: var(--custom-dark-secondary) !important;
-}
-.mb-4 span:not(.anticon), .mb-4 a, .mb-4 p, .mb-4 li{
-  color: var(--custom-text-white);
-}
-.mb-4 table thead tr td, .mb-4 table thead tr th {
-  color: var(--custom-text-white);
-}
-.mb-4 table tbody:not(.ant-table-tbody) tr td, .mb-4 table tbody:not(.ant-table-tbody) tr th, .mb-4 table thead:not(.ant-table-thead) tr td, .mb-4 table thead:not(.ant-table-thead) tr th {
-  background-color: var(--custom-dark-thirdly) !important;
-  color: var(--custom-text-white-secondary);
-}
-
-
-/* 버튼 */
-.btn-gray {
-  border: 1px solid #fff !important;
-}
-
-.remain-none, .remain-none * {
-  color: #ABFA8E !important;
-}
-
-.remain-today, .remain-today * {
-  color: #FF7371 !important;
-}
-
-.remain-hour, .remain-hour * {
-  color: #FF7371 !important;
-  font-weight: bolder !important;
-}
-
-.remain-soon, .remain-soon * {
-  color: #FF7371 !important;
-  font-weight: bold !important;
-}
-
-
-
-/* Ant Design */
-.ant-card {
-  background-color: #141414;
-  border: 1px solid #303030;
-  color: white;
-}
-
-.ant-select {
-  .ant-select-selector {
-    background-color: #141414 !important;
-    border-color: #424242 !important;
+/* Tables retain their existing layout and status labels. */
+.tablegw, table.AType, table.scheduletb, table.calendartb, #yes-deadline {
+  background-color: var(--kh-surface) !important;
+  color: var(--kh-text);
+  &, th, td, tr { border-color: var(--kh-divider) !important; }
+  th, td {
+    background-color: var(--kh-surface) !important;
+    color: var(--kh-text) !important;
   }
+  th, thead td { background-color: var(--kh-raised) !important; }
+}
+table.AType tr:hover td, .tablegw tbody tr:hover td {
+  background-color: var(--kh-hover) !important;
+}
+#yes-deadline {
+  th, td, thead td { background-color: var(--kh-surface) !important; }
+  thead { font-weight: 600; }
+}
+.oval { background-color: var(--kh-raised) !important; color: var(--kh-text) !important; }
+table.scheduletb th .today1, .today {
+  background-color: var(--kh-brand) !important;
+  color: var(--kh-text) !important;
+}
 
-  &.ant-select-open {
-    .ant-select-selection-item {
-      color: rgba(255, 255, 255, 0.25);
+/* KLAS uses literal inline colors for system notices and deadlines.
+   Limit these overrides to UI lists, excluding authored board/editor content. */
+#appModule > [style*="color: blue"], #appModule > [style*="color:blue"],
+#appModule > .popWindow > [style*="color: blue"], #appModule > .popWindow > [style*="color:blue"],
+#appModule table.AType font[color="blue"],
+#appModule table.AType [style*="color: blue"], #appModule table.AType [style*="color:blue"],
+#appModule table.AType .blue { color: var(--kh-link) !important; }
+#appModule > [style*="color: red"], #appModule > [style*="color:red"],
+#appModule > .popWindow > [style*="color: red"], #appModule > .popWindow > [style*="color:red"],
+#appModule table.AType font[color="red"],
+#appModule table.AType [style*="color: red"], #appModule table.AType [style*="color:red"],
+#appModule table.AType .red { color: var(--kh-danger) !important; }
+.remain-none, .remain-none *, #no-deadline span { color: var(--kh-success) !important; }
+.remain-today, .remain-today *, .remain-hour, .remain-hour *,
+.remain-soon, .remain-soon * { color: var(--kh-danger) !important; }
+.remain-hour, .remain-soon { font-weight: 700; }
+#appModule .ftred, #appModule .memberft04 { color: var(--kh-danger) !important; }
+#appModule .memberft01 { color: var(--kh-link) !important; }
+#appModule .memberft02 { color: var(--kh-accent) !important; }
+#appModule .memberft03 { color: var(--kh-success) !important; }
+#appModule .memberft05 { color: var(--kh-warning) !important; }
+#appModule :is(table.AType, .tablegw, #prjctList) font[color="green"] {
+  color: var(--kh-success) !important;
+}
+#appModule > ul font[color="red"], #appModule > .popWindow > ul font[color="red"] {
+  color: var(--kh-danger) !important;
+}
+#appModule > table font[color="red"] { color: var(--kh-danger) !important; }
+.title-text .fjahong, .calnotice font[style*="233, 30, 99"] {
+  color: var(--kh-accent) !important;
+}
+.calnotice font[style*="58, 5, 31"] { color: var(--kh-secondary) !important; }
+
+/* Only the official tuition notice uses these authored emphasis colors. */
+html[data-kh-tuition-dark] #appModule {
+  :is(span, font)[style*="color: blue"], :is(span, font)[style*="color:blue"] {
+    color: var(--kh-link) !important;
+  }
+  :is(span, font)[style*="color: red"], :is(span, font)[style*="color:red"] {
+    color: var(--kh-danger) !important;
+  }
+}
+
+/* Keep timetable hue identities, darken their surfaces for white text. */
+$schedule-colors: #28534b, #594923, #2d513b, #4d365e, #57355a,
+  #354367, #5d4033, #584a16, #573b57, #652e2e, #30466b,
+  #505327, #583e4b, #28516c, #40542a;
+@for $i from 1 through length($schedule-colors) {
+  $suffix: if($i < 10, '0#{$i}', '#{$i}');
+  table.scheduletb td .namecol#{$suffix} {
+    background-color: nth($schedule-colors, $i) !important;
+    color: var(--kh-text) !important;
+    p, span, a { color: var(--kh-text) !important; }
+  }
+}
+
+/* Native controls, including Bootstrap and KLAS variants. */
+input:not([type="checkbox"]):not([type="radio"]):not([type="hidden"]):not([type="submit"]):not([type="button"]):not([type="reset"]),
+select, textarea, .form-control {
+  background-color: var(--kh-raised) !important;
+  color: var(--kh-text) !important;
+  border-color: var(--kh-control-border) !important;
+  &::placeholder { color: var(--kh-muted) !important; opacity: 1; }
+}
+input[type="checkbox"], input[type="radio"] { accent-color: var(--kh-link); }
+option { background-color: var(--kh-raised); color: var(--kh-text); }
+/* Only neutral variants: base button classes also carry login/semantic colors. */
+.btn-gray, .btn-white, .btn-lightgray, .con_search .btn-search {
+  background-color: var(--kh-raised) !important;
+  color: var(--kh-text) !important;
+  border-color: var(--kh-control-border) !important;
+  &:hover:not(:disabled) { background-color: var(--kh-hover) !important; }
+}
+
+/* Preserve the course shortcuts' original hue identities with dark surfaces. */
+$shortcut-colors: (
+  'lightgreen': #2d513b,
+  'lightpurple': #354367,
+  'lightbrown': #594923,
+  'lightblue': #28534b
+);
+@each $name, $background in $shortcut-colors {
+  .btn-#{$name} {
+    background-color: $background !important;
+    color: var(--kh-text) !important;
+    border-color: var(--kh-control-border) !important;
+    &:hover:not(:disabled):not(.disabled) {
+      background-color: mix(white, $background, 8%) !important;
     }
   }
 }
-
-.ant-select-dropdown {
-  background-color: #1f1f1f;
-
-  .ant-select-item {
-    color: rgba(255, 255, 255, 0.85) !important;
-
-    &.ant-select-item-option-active {
-      background-color: rgba(255, 255, 255, 0.08);
-    }
-
-    &.ant-select-item-option-selected {
-      background-color: #111a2c;
-    }
-  }
+:where(button, input, select, textarea):disabled {
+  color: var(--kh-muted) !important;
+  cursor: not-allowed;
+}
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--kh-link) !important;
+  outline-offset: 2px;
+}
+.con_tab .con_tab1, .con_tab .con_tab2 {
+  border-color: var(--kh-control-border) !important;
+  a { background-color: var(--kh-surface) !important; border-color: var(--kh-control-border) !important; }
+  a.on { background-color: var(--kh-hover) !important; border-color: var(--kh-link) !important; }
 }
 
-.ant-radio-wrapper {
-  .ant-radio-inner {
-    background-color: #141414 !important;
-    border-color: #424242 !important;
-  }
+/* Calendar and popup surfaces; media/canvas/editor documents are not inverted. */
+.c-pane-container, .c-pane, .popover-content, .popover, .popover-body,
+.modal, .modal-content, .modal-header, .modal-footer, .session-extension-box {
+  background-color: var(--kh-raised) !important;
+  color: var(--kh-text) !important;
+  border-color: var(--kh-divider) !important;
+}
+#lrnCerti > .layerTip {
+  background-color: var(--kh-surface) !important;
+}
+.c-title, .c-weekday, .c-day-content, .c-header, .c-arrow {
+  color: var(--kh-text) !important;
+}
+.c-weekdays { background-color: var(--kh-brand) !important; }
+.c-day-content:focus, .c-day-content:hover { background-color: var(--kh-hover) !important; }
+.c-day-content:focus-visible { outline: 2px solid var(--kh-link) !important; }
 
-  &.ant-radio-wrapper-checked {
-    .ant-radio-inner {
-      background-color: #1668dc !important;
-      border-color: #1668dc !important;
-    }
-  }
+/* Preserve the overlay's pointer blocking, animation and lifecycle. */
+.vld-overlay .vld-background { background: var(--kh-bg) !important; opacity: .72 !important; }
+.vld-overlay .vld-icon { color: var(--kh-text) !important; }
+.vld-overlay .vld-icon svg { fill: var(--kh-text) !important; }
+.vld-overlay .vld-icon svg[stroke] { stroke: var(--kh-text) !important; }
 
-  &:hover {
-    .ant-radio-inner {
-      border-color: #1668dc !important;
-    }
-  }
+footer {
+  background-color: var(--kh-bg) !important;
+  border-top: 1px solid var(--kh-divider);
+  color: var(--kh-secondary) !important;
+  .copyright, .copyright p { color: var(--kh-secondary) !important; }
+  .btnup a { color: var(--kh-secondary) !important; }
+  /* This single monochrome logo needs a light silhouette on the dark footer. */
+  h1.logo { filter: brightness(0) invert(.8); }
 }
 
-.ant-input {
-  background-color: #141414;
-  border-color: #424242;
-  color: rgba(255, 255, 255, 0.85);
+/* Ant Design portals live outside #appModule, so these rules are document-wide. */
+.ant-card, .ant-table, .ant-table-container, .ant-table-placeholder,
+.ant-select-dropdown, .ant-popover-inner, .ant-message-notice-content {
+  background-color: var(--kh-surface) !important;
+  color: var(--kh-text) !important;
+  border-color: var(--kh-divider) !important;
 }
-
+.ant-card-head, .ant-card-head-title, .ant-form-item-label > label,
+.ant-radio-wrapper, .helper-title, .ant-select-selection-item,
+.ant-select-item, .ant-pagination, .ant-pagination a {
+  color: var(--kh-text) !important;
+}
+.ant-select .ant-select-selector, .ant-input, .ant-input-affix-wrapper,
+.ant-btn-default, .ant-pagination-item, .ant-radio-inner {
+  background-color: var(--kh-raised) !important;
+  color: var(--kh-text) !important;
+  border-color: var(--kh-control-border) !important;
+}
+.ant-select-arrow, .ant-select-clear, .ant-select-selection-placeholder,
+.ant-empty, .ant-empty-description, .ant-input::placeholder {
+  color: var(--kh-muted) !important;
+}
+.ant-select-item-option-active, .ant-select-item-option-selected,
+.ant-table .ant-table-tbody .ant-table-cell-row-hover {
+  background-color: var(--kh-hover) !important;
+}
+.ant-select-item-option-selected { box-shadow: inset 3px 0 var(--kh-link); }
+.ant-radio-checked .ant-radio-inner { border-color: var(--kh-link) !important; }
+.ant-radio-checked .ant-radio-inner::after { background-color: var(--kh-link) !important; }
+.ant-select-focused .ant-select-selector { outline: 2px solid var(--kh-link); outline-offset: 2px; }
 .ant-table {
-  background-color: #141414 !important;
-
-  .ant-table-container {
-    border-color: #303030 !important;
-  }
-
-  th {
-    background-color: #1d1d1d !important;
-    border-color: #303030 !important;
-    color: rgba(255, 255, 255, 0.85) !important;
-  }
-
-  .ant-table-tbody {
-    td {
-      border-color: #303030 !important;
-    }
-
-    tr:not(.helper-missing):not(.helper-closed) {
-      td {
-        color: rgba(255, 255, 255, 0.85) !important;
-      }
-    }
-
-    .ant-table-cell-row-hover {
-      background-color: #1d1d1d !important;
-    }
-  }
-
-  .ant-table-placeholder {
-    background-color: #1d1d1d !important;
-    color: rgba(255, 255, 255, 0.85) !important;
-
-    &:hover {
-      td {
-        background-color: #1d1d1d !important;
-      }
-    }
-  }
+  th, td { border-color: var(--kh-divider) !important; color: var(--kh-text) !important; }
+  th { background-color: var(--kh-raised) !important; }
+  td { background-color: var(--kh-surface) !important; }
+  .helper-missing td { background-color: var(--kh-raised) !important; color: var(--kh-muted) !important; }
+  .helper-closed td { background-color: #452b2b !important; color: var(--kh-danger) !important; }
 }
-
-.ant-rate {
-  .ant-rate-star-second {
-    color: rgba(255, 255, 255, 0.12);
-  }
-}
-
-.ant-empty {
-  color: rgba(255, 255, 255, 0.25) !important;
-
-  .ant-empty-description {
-    color: rgba(255, 255, 255, 0.25);
-  }
-}
-
-.helper-missing {
-  background-color: #333 !important;
-  color: #888 !important;
-
-  td {
-    color: #888 !important;
-  }
-}
-
-.helper-closed {
-  background-color: #552222 !important;
-  color: #ff5555 !important;
-
-  td {
-    color: #ff5555 !important;
-  }
-}
+.ant-rate { color: var(--kh-warning); }
+.ant-rate .ant-rate-star-zero .ant-rate-star-second { color: var(--kh-control-border); }
+.ant-spin-dot-item { background-color: var(--kh-link); }
+.ant-spin-blur::after { background-color: var(--kh-bg); }

@@ -38,6 +38,7 @@ function initializeDarkMode() {
   const keys = ['currentState', 'useDark'] as const;
   let settings: Record<string, unknown> = {};
   let darkStyle: HTMLLinkElement | undefined;
+  let initialDarkStyle: HTMLStyleElement | undefined;
 
   const headObserver = new MutationObserver(() => {
     if (document.head) {
@@ -47,9 +48,30 @@ function initializeDarkMode() {
   });
 
   function applyDarkMode() {
+    // Scope notice colors by route, without changing authored course posts.
+    document.documentElement?.toggleAttribute('data-kh-tuition-dark',
+      settings.currentState !== 'OFF' && settings.useDark === 'ON' &&
+      location.pathname === '/std/hak/erollmnt/TutionNtPage.do');
     if (settings.currentState === 'OFF' || settings.useDark !== 'ON') {
       darkStyle?.remove();
+      initialDarkStyle?.remove();
       return;
+    }
+
+    // Paint the page canvas before the external stylesheet finishes loading.
+    // Keep this removable so switching OFF restores the site's native theme.
+    if (!initialDarkStyle) {
+      initialDarkStyle = document.createElement('style');
+      initialDarkStyle.id = 'klas-helper-dark-initial';
+      initialDarkStyle.textContent = `
+        :root { color-scheme: dark; }
+        html, body { background-color: #2b2b2b !important; color: #dedede; }
+        .vld-overlay .vld-background { background: #2b2b2b !important; opacity: .72 !important; }
+      `;
+    }
+    const styleParent = document.head || document.documentElement;
+    if (styleParent && !initialDarkStyle.isConnected) {
+      styleParent.append(initialDarkStyle);
     }
 
     if (!document.head) {
