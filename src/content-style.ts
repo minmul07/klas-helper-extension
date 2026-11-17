@@ -34,6 +34,77 @@ function hideTimetableUntilReady() {
   }, 5000);
 }
 
+function initializeDarkMode() {
+  const keys = ['currentState', 'useDark'] as const;
+  let settings: Record<string, unknown> = {};
+  let darkStyle: HTMLLinkElement | undefined;
+
+  const headObserver = new MutationObserver(() => {
+    if (document.head) {
+      headObserver.disconnect();
+      applyDarkMode();
+    }
+  });
+
+  function applyDarkMode() {
+    if (settings.currentState === 'OFF' || settings.useDark !== 'ON') {
+      darkStyle?.remove();
+      return;
+    }
+
+    if (!document.head) {
+      return;
+    }
+
+    if (!darkStyle) {
+      darkStyle = document.createElement('link');
+      darkStyle.href = browser.runtime.getURL('dark.css');
+      darkStyle.type = 'text/css';
+      darkStyle.rel = 'stylesheet';
+    }
+
+    if (!darkStyle.isConnected) {
+      document.head.append(darkStyle);
+    }
+  }
+
+  // document_start에서는 아직 head가 없을 수 있습니다.
+  if (!document.head) {
+    headObserver.observe(document, { childList: true, subtree: true });
+  }
+
+  // 사이트의 기본 CSS 뒤에 배치해 같은 우선순위의 스타일보다 우선 적용합니다.
+  document.addEventListener('DOMContentLoaded', () => {
+    if (darkStyle?.isConnected) {
+      document.head.append(darkStyle);
+    }
+  }, { once: true });
+
+  browser.storage.onChanged.addListener((changes, areaName) => {
+    if (areaName !== 'sync') {
+      return;
+    }
+
+    for (const key of keys) {
+      if (Object.prototype.hasOwnProperty.call(changes, key)) {
+        settings[key] = changes[key].newValue;
+      }
+    }
+
+    applyDarkMode();
+  });
+
+  browser.storage.sync.get([...keys]).then((items) => {
+    // 초기 조회 중 발생한 토글 변경을 이전 값으로 덮어쓰지 않습니다.
+    settings = { ...items, ...settings };
+    applyDarkMode();
+  }).catch((error) => {
+    console.error('Error accessing storage:', error);
+  });
+}
+
+initializeDarkMode();
+
 function main() {
   hideTimetableUntilReady();
 
@@ -46,30 +117,6 @@ function main() {
       favicon.rel = 'icon';
       favicon.href = 'https://www.kw.ac.kr/ko/img/favicon.ico';
       document.getElementsByTagName('head')[0].appendChild(favicon);
-
-      // 크롬 sync 스토리지 이용해 체크 여부 확인
-      try {
-        // dark mode 적용
-        browser.storage.sync.get(null).then((items) => {
-          // chrome namespace not supported
-          if (items.useDark === undefined) {
-            browser.storage.sync.set({ 'useDark': 'OFF' });
-          }
-          else if (items.useDark === 'ON') {
-            //  다크모드 css 삽입
-            const style = document.createElement('link');
-            style.href = browser.runtime.getURL('dark.css');
-            style.type = 'text/css';
-            style.rel = 'stylesheet';
-            document.querySelector('head')?.append(style);
-          }
-        }).catch((error) => {
-          console.error('Error accessing storage:', error);
-        });
-      }
-      catch (e) {
-
-      }
 
       // 크롬 sync 스토리지 이용해 체크 여부 확인
       try {
